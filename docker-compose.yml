@@ -1,0 +1,26 @@
+web:
+  build: .
+  command: php -S 0.0.0.0:80 -t /app/web
+  ports:
+    - "8000:80"
+    - "443:443"
+  volumes:
+    - ./app:/app
+  links:
+    - db:mysql
+db:
+  image: mysql:5.7
+  volumes:
+   - /var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: 123456
+
+phpmyadmin:
+  image: corbinu/docker-phpmyadmin
+  links:
+    - db:mysql
+  ports:
+    - 8181:80
+  environment:
+    MYSQL_USERNAME: root
+    MYSQL_ROOT_PASSWORD: 123456
